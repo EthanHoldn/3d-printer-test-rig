@@ -42,20 +42,32 @@ class PrinterController:
                     print(f"<<< {response}")
 
     def send_start(self):
-        f = open('start.gcode', 'r')
-        for line in f:
-            if line.startswith(';'):
+        start = """
+        M107 ; disable fans
+        M420 S0 ; disable previous leveling matrix
+        G90 ; absolute positioning
+        M82 ; set extruder to absolute mode
+        G92 E0 ; set extruder position to 0
+        G28 ; Home all axis
+        """
+        for line in start.split('\n'):
+            if line.startswith(';') or not line.strip():
                 continue
             self.send_gcode(line.strip())
-        f.close()
+        self.send_gcode('M420 S1')
 
     def send_end(self):
-        f = open('end.gcode', 'r')
-        for line in f:
-            if line.startswith(';'):
+        end = """
+            G1 Y280 F3000
+            M84
+            G90
+            M117 Print Complete.
+            M82
+            M104 S0"""
+        for line in end.split('\n'):
+            if line.startswith(';') or not line.strip():
                 continue
             self.send_gcode(line.strip())
-        f.close()
 
     def go_to(self, x: float, y: float, z: float, e: float=None, speed=3000):
         if e is not None:

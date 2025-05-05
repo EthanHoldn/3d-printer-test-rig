@@ -1,2 +1,11 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# dont include .venv, .vscode, .idea, .pytest_cache, __pycache__, .mypy_cache, .coverage, .tox, .eggs, build, dist
+.venv/* linguist-generated=true
+.vscode/* linguist-generated=true
+.idea/* linguist-generated=true
+.pytest_cache/* linguist-generated=true
+__pycache__/* linguist-generated=true
+.mypy_cache/* linguist-generated=true
+.coverage/* linguist-generated=true 

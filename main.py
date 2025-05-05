@@ -1,4 +1,3 @@
-import math
 from printer.controller import PrinterController
 
 PORT = '/dev/tty.usbmodem1101' # change this to your printer's port
@@ -11,10 +10,12 @@ def main():
 
     printer.send_start()
 
-    printer.go_to(0, 0, 0, speed=200)
-    printer.go_to(0, 0, 10, 4)
-
-
+    printer.go_to(100, 100, 100)
+    #set the acceleration to 1000
+    printer.send_gcode('M204 S100')
+    while True:
+        e = input()
+        printer.go_to(100, 100, 100, e, 300)
     printer.send_end()
 
     printer.disconnect()
